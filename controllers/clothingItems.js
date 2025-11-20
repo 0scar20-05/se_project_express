@@ -15,7 +15,7 @@ const createItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Item not found" });
       }
       return res
         .status(INTERNAL_SERVER_ERROR)
