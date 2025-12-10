@@ -4,9 +4,11 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 ## Running the Project
 
-`npm run start` — to launch the server
+- [Deployed server](https://wtwron.jumpingcrab.com/profile)
 
-`npm run dev` — to launch the server with the hot reload feature
+- [frontend](https://github.com/0scar20-05/se_project_react)
+
+- [backend](https://github.com/0scar20-05/se_project_express)
 
 ### Testing
 
