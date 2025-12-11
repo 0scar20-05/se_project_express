@@ -4,7 +4,7 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 ## Running the Project
 
-- [Deployed server](https://wtwron.jumpingcrab.com/profile)
+- [Deployed server](https://wtwron.jumpingcrab.com)
 
 - [frontend](https://github.com/0scar20-05/se_project_react)
 

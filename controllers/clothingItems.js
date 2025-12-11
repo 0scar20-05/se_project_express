@@ -1,10 +1,12 @@
 const clothingItem = require("../models/clothingItem");
-const { BadRequestError, Forbidden, NotFound } = require("../utils/errors");
+const { BadRequestError } = require("../utils/errors/BadRequestError");
+const { NotFound } = require("../utils/errors/NotFound");
+const { Forbidden } = require("../utils/errors/Forbidden");
 
 const createItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
 
-  clothingItem
+  return clothingItem
     .create({ name, weather, imageUrl, owner: req.user._id })
     .then((item) => res.status(201).send({ data: item }))
     .catch((err) => {
@@ -12,7 +14,7 @@ const createItem = (req, res, next) => {
       if (err.name === "ValidationError") {
         return next(new BadRequestError("Item not found"));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -26,7 +28,7 @@ const getItems = (req, res, next) => {
     });
 };
 
-const likeItem = (req, res) => {
+const likeItem = (req, res, next) => {
   const { itemId } = req.params;
 
   clothingItem

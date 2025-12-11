@@ -2,12 +2,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
-const {
-  BadRequestError,
-  UnauthorizedError,
-  NotFound,
-  Conflict,
-} = require("../utils/errors");
+const { BadRequestError } = require("../utils/errors/BadRequestError");
+const { UnauthorizedError } = require("../utils/errors/UnauthorizedError");
+const { NotFound } = require("../utils/errors/NotFound");
+const { Conflict } = require("../utils/errors/Conflict");
 
 const createUser = (req, res, next) => {
   const { name, avatar, email, password } = req.body;
@@ -39,7 +37,7 @@ const createUser = (req, res, next) => {
       if (err.name === "ValidationError") {
         return next(new BadRequestError(err.message));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -62,14 +60,14 @@ const login = (req, res, next) => {
       if (err.message === "Incorrect email or password") {
         return next(new UnauthorizedError("Incorrect email or password"));
       }
-      next(err);
+      return next(err);
     });
 };
 
 const getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
 
-  User.findById(userId)
+  return User.findById(userId)
     .orFail()
     .then((user) => res.status(200).send(user))
     .catch((err) => {
@@ -79,15 +77,15 @@ const getCurrentUser = (req, res, next) => {
       if (err.name === "CastError") {
         return next(new BadRequestError("Invalid user ID"));
       }
-      next(err);
+      return next(err);
     });
 };
 
-const updateCurrentUser = (req, res) => {
+const updateCurrentUser = (req, res, next) => {
   const userId = req.user._id;
   const { name, avatar } = req.body;
 
-  User.findByIdAndUpdate(
+  return User.findByIdAndUpdate(
     userId,
     { name, avatar },
     { new: true, runValidators: true }
@@ -104,7 +102,7 @@ const updateCurrentUser = (req, res) => {
       if (err.name === "DocumentNotFoundError") {
         return next(new NotFound("User not found"));
       }
-      next(err);
+      return next(err);
     });
 };
 

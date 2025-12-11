@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { NotFound } = require("../utils/errors");
+const { NotFound } = require("../utils/errors/NotFound");
 
 router.use("/users", require("./users"));
 router.use("/items", require("./clothingItems"));
